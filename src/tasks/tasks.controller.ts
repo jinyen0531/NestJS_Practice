@@ -12,7 +12,7 @@ export class TasksController {
     }
 
     @Get()
-    getTasks(@Query() filterDto: GetTasksFilterDto): Task[] {
+    getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Task[] {
         if (Object.keys(filterDto).length) {
             return this.tasksService.getTasksWithFilters(filterDto);
         } else {
@@ -34,13 +34,5 @@ export class TasksController {
     @Delete('/:id')
     deleteTask(@Param('id') id: string): void {
         this.tasksService.deleteTask(id);
-    }
-
-    @Patch('/:id/status')
-    updateTaskStatus(
-        @Param('id') id: string, 
-        @Body('status', TaskStatusValidationPipe) status: TaskStatus
-    ) : Task {
-        return this.tasksService.updateTaskStatus(id, status);
     }
 }
